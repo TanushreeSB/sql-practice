@@ -22,3 +22,31 @@ It's important to note that for the last record with an odd ID, there will be no
 In such cases, ensure the student's name remains unchanged by using the COALESCE function to default to the original value in the student column when the window function returns null.
 
 */
+
+
+*************************************************************************************************************************************************************************************************************************
+
+# Write your MySQL query statement below
+SELECT 
+    CASE
+        WHEN id % 2 = 1 AND id + 1 IN (SELECT id FROM Seat) THEN id + 1
+        WHEN id % 2 = 0 THEN id - 1
+        ELSE id
+    END AS id,
+    student
+
+FROM Seat
+ORDER BY id;
+
+/*
+
+The problem requires swapping adjacent seat assignments while keeping the last student in place if there is an odd number of students. Since the id column increments continuously from 1, we can identify adjacent students using simple arithmetic conditions.
+
+Approach
+We check if the id is odd and if the next seat (id + 1) exists in the table.
+If true, swap the id with id + 1.
+If the id is even, swap it with id - 1.
+If there is no adjacent seat (last row in case of an odd number of students), retain the original id.
+The CASE statement handles these conditions efficiently.
+
+*/
